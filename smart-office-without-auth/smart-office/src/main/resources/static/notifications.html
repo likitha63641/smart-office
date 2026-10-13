@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Notifications | Smart Office</title>
+
+
+<style>
+
+    body {
+        font-family: Segoe UI, Arial;
+        background: #f4f7fb;
+        margin: 0;
+        color: #1f2937
+    }
+
+
+    /* =========================
+       SAME NAVIGATION AS DASHBOARD
+    ========================= */
+
+    .nav {
+        background: #111827;
+        color: white;
+
+        padding: 16px 5%;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        box-sizing: border-box;
+
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+
+    .nav-brand {
+        font-size: 20px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+
+    .nav a,
+    .nav button {
+        color: white;
+
+        padding: 9px 12px;
+
+        text-decoration: none;
+
+        background: transparent;
+        border: 0;
+
+        border-radius: 7px;
+
+        cursor: pointer;
+
+        font-size: 14px;
+        font-family: inherit;
+
+        transition: 0.2s ease;
+    }
+
+
+    .nav a:hover,
+    .nav button:hover {
+        background: #1f2937;
+    }
+
+
+    /* Active page */
+
+    .nav a.active {
+        background: #2563eb;
+        color: white;
+    }
+
+
+    /* Responsive */
+
+    @media (max-width: 1000px) {
+
+        .nav {
+            flex-direction: column;
+
+            gap: 12px;
+
+            align-items: flex-start;
+        }
+
+
+        .nav-links {
+            width: 100%;
+
+            overflow-x: auto;
+
+            padding-bottom: 3px;
+        }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+        .nav {
+            padding: 14px 4%;
+        }
+
+
+        .nav-links {
+            gap: 3px;
+        }
+
+
+        .nav a,
+        .nav button {
+            padding: 8px 9px;
+
+            font-size: 12px;
+        }
+
+    }
+
+
+    /* =========================
+       EXISTING NOTIFICATION CSS
+    ========================= */
+
+    .wrap {
+        width: 92%;
+        max-width: 900px;
+        margin: 35px auto
+    }
+
+
+    .card {
+        background: #fff;
+        padding: 25px;
+        border-radius: 16px;
+        border: 1px solid #e5e7eb;
+        margin-bottom: 20px
+    }
+
+
+    .note {
+        padding: 15px;
+        border-bottom: 1px solid #eee
+    }
+
+
+    .unread {
+        background: #eff6ff
+    }
+
+
+    .btn {
+        padding: 8px 12px;
+        border: 0;
+        border-radius: 8px;
+        background: #2563eb;
+        color: white;
+        cursor: pointer
+    }
+
+
+    .admin {
+        display: none
+    }
+
+
+    .field {
+        margin-bottom: 12px
+    }
+
+
+    .field input,
+    .field textarea {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 11px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px
+    }
+
+
+    .field textarea {
+        min-height: 100px
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<div id="main-navigation"></div>
+
+
+<div class="wrap">
+
+
+    <div class="card">
+
+        <h1>
+            Notifications
+        </h1>
+
+
+        <div id="list">
+            Loading...
+        </div>
+
+    </div>
+
+
+    <div class="card admin" id="emailCard">
+
+        <h2>
+            Send Email
+        </h2>
+
+
+        <form id="emailForm">
+
+
+            <div class="field">
+
+                <input
+                    id="to"
+                    type="email"
+                    placeholder="Recipient email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <input
+                    id="subject"
+                    placeholder="Subject"
+                    required
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <textarea
+                    id="body"
+                    placeholder="Message"
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <button class="btn">
+                Send Email
+            </button>
+
+
+        </form>
+
+
+        <p id="emailMsg"></p>
+
+    </div>
+
+
+</div>
+
+
+<script src="/auth.js"></script>
+
+
+<script>
+
+
+    function esc(s) {
+
+        return String(s).replace(
+            /[&<>"']/g,
+            c => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#39;'
+            }[c])
+        )
+
+    }
+
+
+    function logout() {
+
+        smartLogout()
+
+    }
+
+
+    async function load() {
+
+        const r =
+            await apiFetch('/notifications');
+
+
+        const ns =
+            await r.json();
+
+
+        list.innerHTML =
+
+            ns.map(n => `
+
+                <div class="note ${n.read ? '' : 'unread'}">
+
+                    <b>
+                        ${esc(n.message)}
+                    </b>
+
+                    <div>
+
+                        ${new Date(n.createdAt).toLocaleString()}
+
+                        ${n.issueId
+                            ? `· <a href="/issue-details.html?id=${n.issueId}">Issue #${n.issueId}</a>`
+                            : ''
+                        }
+
+                    </div>
+
+
+                    ${!n.read
+                        ? `<button class="btn" onclick="readNote(${n.id})">Mark read</button>`
+                        : ''
+                    }
+
+                </div>
+
+            `).join('')
+
+            ||
+
+            '<p>No notifications.</p>';
+
+
+        if (currentUser?.role === 'ADMIN')
+            emailCard.style.display = 'block'
+
+    }
+
+
+    async function readNote(id) {
+
+        await apiFetch(
+            '/notifications/' + id + '/read',
+            {
+                method: 'PUT'
+            }
+        );
+
+        load()
+
+    }
+
+
+    emailForm.onsubmit = async e => {
+
+        e.preventDefault();
+
+
+        const r =
+            await apiFetch(
+                '/notifications/email',
+                {
+                    method: 'POST',
+
+                    headers: {
+                        'Content-Type':
+                            'application/json'
+                    },
+
+                    body: JSON.stringify({
+                        to: to.value,
+                        subject: subject.value,
+                        body: body.value
+                    })
+
+                }
+            );
+
+
+        emailMsg.textContent =
+            r.ok
+                ? 'Email sent.'
+                : 'Failed to send email'
+
+    };
+
+
+    document.addEventListener(
+        'smartoffice-auth-ready',
+        load
+    );
+
+
+</script>
+
+<script src="/javascript/nav.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Report Issue | Smart Office</title>
+
+    <style>
+        body {
+            font-family: Segoe UI, Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            color: #1f2937;
+        }
+
+        /* =========================
+           EMPLOYEE NAVIGATION
+           ========================= */
+        .nav {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: #fff;
+            padding: 18px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav a,
+        .nav button {
+            color: #fff;
+            text-decoration: none;
+            background: none;
+            border: 0;
+            cursor: pointer;
+            font-size: 15px;
+            padding: 8px 10px;
+        }
+
+        .nav a:hover,
+        .nav button:hover {
+            opacity: 0.85;
+        }
+
+        .nav a.active {
+            font-weight: 700;
+            border-bottom: 2px solid #fff;
+        }
+
+        /* =========================
+           PAGE
+           ========================= */
+        .wrap {
+            width: 92%;
+            max-width: 800px;
+            margin: 35px auto;
+        }
+
+        .card {
+            background: #fff;
+            padding: 30px;
+            border-radius: 18px;
+            border: 1px solid #e5e7eb;
+        }
+
+        .card h1 {
+            margin-top: 0;
+        }
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .field input,
+        .field textarea,
+        .field select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+            font-family: inherit;
+            font-size: 15px;
+        }
+
+        .field textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .btn {
+            background: #2563eb;
+            color: #fff;
+            padding: 13px 18px;
+            border: 0;
+            border-radius: 9px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .msg {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 9px;
+            display: none;
+        }
+
+        /* =========================
+           MOBILE
+           ========================= */
+        @media (max-width: 700px) {
+
+            .nav {
+                display: block;
+                padding: 18px 5%;
+            }
+
+            .nav-brand {
+                margin-bottom: 10px;
+            }
+
+            .nav-links {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 5px;
+            }
+
+            .nav a,
+            .nav button {
+                margin: 0;
+                padding: 8px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ==========================================
+         PERMANENT EMPLOYEE NAVIGATION
+         ========================================== -->
+    <div class="nav">
+
+        <div class="nav-brand">
+            Smart Office
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="/issues.html">
+                My Issues
+            </a>
+
+            <a href="/create-issue.html" class="active">
+                Report Issue
+            </a>
+
+            <a href="/notifications.html">
+                Notifications
+            </a>
+
+            <button onclick="logout()">
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         REPORT ISSUE
+         ========================================== -->
+    <div class="wrap">
+
+        <div class="card">
+
+            <h1>
+                Report Maintenance Issue
+            </h1>
+
+            <p>
+                Describe the problem clearly so the maintenance team can resolve it faster.
+            </p>
+
+
+            <form id="form">
+
+                <!-- TITLE -->
+                <div class="field">
+
+                    <label for="title">
+                        Title
+                    </label>
+
+                    <input
+                        id="title"
+                        required
+                        maxlength="150"
+                    >
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+                <div class="field">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        required
+                        minlength="5"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- CATEGORY + PRIORITY -->
+                <div class="grid">
+
+                    <div class="field">
+
+                        <label for="category">
+                            Category
+                        </label>
+
+                        <select
+                            id="category"
+                            required
+                        ></select>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="priority">
+                            Priority
+                        </label>
+
+                        <select id="priority">
+
+                            <option value="LOW">
+                                Low
+                            </option>
+
+                            <option
+                                value="MEDIUM"
+                                selected
+                            >
+                                Medium
+                            </option>
+
+                            <option value="HIGH">
+                                High
+                            </option>
+
+                            <option value="CRITICAL">
+                                Critical
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ATTACHMENT -->
+                <div class="field">
+
+                    <label for="file">
+                        Attachment (optional, max 10 MB)
+                    </label>
+
+                    <input
+                        id="file"
+                        type="file"
+                    >
+
+                </div>
+
+
+                <!-- SUBMIT -->
+                <button
+                    id="submit"
+                    class="btn"
+                    type="submit"
+                >
+                    Create Issue
+                </button>
+
+
+                <!-- MESSAGE -->
+                <div
+                    id="msg"
+                    class="msg"
+                ></div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         AUTHENTICATION
+         ========================================== -->
+    <script src="/auth.js"></script>
+
+
+    <script>
+
+        /* ==============================
+           LOGOUT
+           ============================== */
+        function logout() {
+            smartLogout();
+        }
+
+
+        /* ==============================
+           SHOW MESSAGE
+           ============================== */
+        function show(message, success = false) {
+
+            const msg = document.getElementById('msg');
+
+            msg.textContent = message;
+
+            msg.style.display = 'block';
+
+            if (success) {
+
+                msg.style.background = '#dcfce7';
+                msg.style.color = '#166534';
+
+            } else {
+
+                msg.style.background = '#fee2e2';
+                msg.style.color = '#991b1b';
+
+            }
+        }
+
+
+        /* ==============================
+           LOAD ISSUE CATEGORIES
+           ============================== */
+        async function load() {
+
+            try {
+
+                const response =
+                    await apiFetch('/categories');
+
+                const categories =
+                    await response.json();
+
+                const category =
+                    document.getElementById('category');
+
+
+                category.innerHTML =
+                    categories
+                        .map(c =>
+                            `<option value="${c.name}">
+                                ${c.name}
+                            </option>`
+                        )
+                        .join('');
+
+            } catch (error) {
+
+                console.error(
+                    'Failed to load categories:',
+                    error
+                );
+
+                show(
+                    'Unable to load issue categories.'
+                );
+            }
+        }
+
+
+        /* ==============================
+           CREATE ISSUE
+           ============================== */
+        document
+            .getElementById('form')
+            .onsubmit = async function (event) {
+
+                event.preventDefault();
+
+
+                const submit =
+                    document.getElementById('submit');
+
+                const title =
+                    document.getElementById('title');
+
+                const description =
+                    document.getElementById('description');
+
+                const category =
+                    document.getElementById('category');
+
+                const priority =
+                    document.getElementById('priority');
+
+                const file =
+                    document.getElementById('file');
+
+
+                submit.disabled = true;
+
+
+                try {
+
+                    /* ==========================
+                       CREATE ISSUE
+                       ========================== */
+
+                    const response =
+                        await apiFetch('/issues', {
+
+                            method: 'POST',
+
+                            headers: {
+                                'Content-Type':
+                                    'application/json'
+                            },
+
+                            body: JSON.stringify({
+
+                                title: title.value,
+
+                                description:
+                                    description.value,
+
+                                category:
+                                    category.value,
+
+                                priority:
+                                    priority.value
+
+                            })
+
+                        });
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.message ||
+                            'Could not create issue'
+                        );
+
+                    }
+
+
+                    /* ==========================
+                       OPTIONAL ATTACHMENT
+                       ========================== */
+
+                    const selectedFile =
+                        file.files[0];
+
+
+                    if (selectedFile) {
+
+                        if (
+                            selectedFile.size >
+                            10 * 1024 * 1024
+                        ) {
+
+                            throw new Error(
+                                'Attachment must be 10 MB or smaller'
+                            );
+
+                        }
+
+
+                        const formData =
+                            new FormData();
+
+                        formData.append(
+                            'file',
+                            selectedFile
+                        );
+
+
+                        const attachmentResponse =
+                            await apiFetch(
+                                '/issues/' +
+                                data.id +
+                                '/attachment',
+                                {
+                                    method: 'POST',
+                                    body: formData
+                                }
+                            );
+
+
+                        if (!attachmentResponse.ok) {
+
+                            throw new Error(
+                                'Issue created, but attachment upload failed'
+                            );
+
+                        }
+
+                    }
+
+
+                    /* ==========================
+                       SUCCESS
+                       ========================== */
+
+                    show(
+                        'Issue created successfully.',
+                        true
+                    );
+
+
+                    setTimeout(
+                        () => {
+                            location.href =
+                                '/issues.html';
+                        },
+                        800
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        'Create issue error:',
+                        error
+                    );
+
+                    show(
+                        error.message ||
+                        'Could not create issue'
+                    );
+
+
+                } finally {
+
+                    submit.disabled = false;
+
+                }
+
+            };
+
+
+        /* ==============================
+           WAIT FOR AUTH READY
+           ============================== */
+
+        document.addEventListener(
+            'smartoffice-auth-ready',
+            load
+        );
+
+    </script>
+    <script src="/javascript/nav.js"></script>
+
+</body>
+</html>

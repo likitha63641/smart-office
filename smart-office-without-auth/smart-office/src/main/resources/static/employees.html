@@ -1,0 +1,2125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Employees | Smart Office</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+
+        /* =========================
+           COMMON ADMIN NAVIGATION
+        ========================= */
+
+        .nav {
+            background: #111827;
+            color: white;
+
+            padding: 16px 5%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-sizing: border-box;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-brand {
+            font-size: 20px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav a,
+        .nav button {
+            color: white;
+
+            padding: 9px 12px;
+
+            text-decoration: none;
+
+            background: transparent;
+
+            border: 0;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            font-family: inherit;
+
+            transition: 0.2s ease;
+        }
+
+        .nav a:hover,
+        .nav button:hover {
+            background: #1f2937;
+        }
+
+        /* Active page */
+
+        .nav a.active {
+            background: #2563eb;
+            color: white;
+        }
+
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+            margin: 35px auto;
+        }
+
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            font-size: 30px;
+            color: #111827;
+        }
+
+        .page-header p {
+            margin-top: 5px;
+            color: #6b7280;
+        }
+
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 16px;
+
+            box-shadow: 0 6px 22px rgba(15, 23, 42, 0.07);
+
+            border: 1px solid #e5e7eb;
+
+            transition: 0.25s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.11);
+        }
+
+        .stat-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+
+            margin-top: 5px;
+
+            color: #111827;
+        }
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-card {
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 28px;
+
+            margin-bottom: 30px;
+
+            box-shadow: 0 8px 28px rgba(15, 23, 42, 0.07);
+
+            border: 1px solid #e5e7eb;
+        }
+
+        .form-title {
+            font-size: 20px;
+            font-weight: 700;
+
+            margin-bottom: 5px;
+        }
+
+        .form-subtitle {
+            color: #6b7280;
+
+            font-size: 14px;
+
+            margin-bottom: 22px;
+        }
+
+        .form-grid {
+            display: grid;
+
+            grid-template-columns: repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 14px;
+
+            font-weight: 600;
+
+            margin-bottom: 7px;
+
+            color: #374151;
+        }
+
+        .form-group input {
+            padding: 12px 14px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 9px;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        .form-group input:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.1);
+        }
+
+        .form-actions {
+            margin-top: 20px;
+
+            display: flex;
+
+            gap: 10px;
+        }
+
+        .btn {
+            border: none;
+
+            padding: 12px 20px;
+
+            border-radius: 9px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.25s;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #eef2ff;
+            color: #1d4ed8;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e7ff;
+        }
+
+        .btn-danger {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .btn-danger:hover {
+            background: #fecaca;
+        }
+
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        .message {
+            display: none;
+
+            padding: 12px 15px;
+
+            border-radius: 9px;
+
+            margin-top: 15px;
+
+            font-size: 14px;
+        }
+
+        .message.success {
+            display: block;
+
+            background: #dcfce7;
+
+            color: #166534;
+        }
+
+        .message.error {
+            display: block;
+
+            background: #fee2e2;
+
+            color: #991b1b;
+        }
+
+
+        /* =========================
+           TOOLBAR
+        ========================= */
+
+        .toolbar {
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 18px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 6px 22px
+                rgba(15, 23, 42, 0.06);
+
+            border: 1px solid #e5e7eb;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+        }
+
+        .search-box input {
+            width: 100%;
+
+            padding: 12px 15px;
+
+            border: 1px solid #d1d5db;
+
+            border-radius: 9px;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+        .search-box input:focus {
+            border-color: #2563eb;
+        }
+
+        .employee-count {
+            color: #6b7280;
+
+            font-size: 14px;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           EMPLOYEE GRID
+        ========================= */
+
+        .employee-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+        }
+
+        .employee-card {
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 23px;
+
+            border: 1px solid #e5e7eb;
+
+            box-shadow:
+                0 7px 25px
+                rgba(15, 23, 42, 0.07);
+
+            transition: 0.25s;
+
+            animation: fadeIn 0.35s ease;
+        }
+
+        .employee-card:hover {
+            transform: translateY(-5px);
+
+            box-shadow:
+                0 15px 32px
+                rgba(15, 23, 42, 0.12);
+        }
+
+        .employee-top {
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            margin-bottom: 18px;
+        }
+
+        .avatar {
+            width: 52px;
+            height: 52px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #dbeafe,
+                    #bfdbfe
+                );
+
+            color: #1d4ed8;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 21px;
+
+            font-weight: 700;
+        }
+
+        .employee-name {
+            font-size: 18px;
+
+            font-weight: 700;
+
+            color: #111827;
+        }
+
+        .employee-id {
+            color: #6b7280;
+
+            font-size: 12px;
+
+            margin-top: 3px;
+        }
+
+        .employee-info {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 11px;
+
+            margin-bottom: 20px;
+        }
+
+        .info-row {
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            font-size: 14px;
+
+            color: #4b5563;
+
+            word-break: break-word;
+        }
+
+        .info-icon {
+            width: 25px;
+
+            text-align: center;
+        }
+
+        .employee-actions {
+            display: flex;
+
+            gap: 9px;
+
+            border-top:
+                1px solid #eef0f3;
+
+            padding-top: 17px;
+        }
+
+        .employee-actions .btn {
+            flex: 1;
+
+            padding: 9px 12px;
+
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           EMPTY
+        ========================= */
+
+        .empty-state {
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 60px 20px;
+
+            text-align: center;
+
+            border: 1px solid #e5e7eb;
+
+            color: #6b7280;
+        }
+
+        .empty-icon {
+            font-size: 50px;
+
+            margin-bottom: 12px;
+        }
+
+        .empty-state h3 {
+            color: #374151;
+
+            margin-bottom: 7px;
+        }
+
+
+        /* =========================
+           LOADING
+        ========================= */
+
+        .loading {
+            background: white;
+
+            padding: 50px;
+
+            border-radius: 18px;
+
+            text-align: center;
+
+            color: #6b7280;
+        }
+
+        .spinner {
+            width: 35px;
+            height: 35px;
+
+            border: 4px solid #dbeafe;
+
+            border-top-color: #2563eb;
+
+            border-radius: 50%;
+
+            animation: spin 0.8s linear infinite;
+
+            margin: 0 auto 15px;
+        }
+
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal-overlay {
+            position: fixed;
+
+            inset: 0;
+
+            background:
+                rgba(15, 23, 42, 0.55);
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 1000;
+        }
+
+        .modal {
+            width: 100%;
+
+            max-width: 500px;
+
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 28px;
+
+            box-shadow:
+                0 25px 60px
+                rgba(0, 0, 0, 0.2);
+
+            animation: modalIn 0.25s ease;
+        }
+
+        .modal h2 {
+            margin-bottom: 5px;
+        }
+
+        .modal p {
+            color: #6b7280;
+
+            font-size: 14px;
+
+            margin-bottom: 22px;
+        }
+
+        .modal-actions {
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 10px;
+
+            margin-top: 20px;
+        }
+
+
+        /* =========================
+           ANIMATIONS
+        ========================= */
+
+        @keyframes spin {
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+        @keyframes fadeIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+        }
+
+        @keyframes modalIn {
+
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 950px) {
+
+            .employee-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 1000px) {
+
+            .nav {
+                flex-direction: column;
+
+                gap: 12px;
+
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                width: 100%;
+
+                overflow-x: auto;
+
+                padding-bottom: 3px;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .nav {
+                padding: 14px 4%;
+            }
+
+            .nav-links {
+                gap: 3px;
+            }
+
+            .nav a,
+            .nav button {
+                padding: 8px 9px;
+
+                font-size: 12px;
+            }
+
+            .container {
+                width: 94%;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .employee-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 10px;
+            }
+
+            .toolbar {
+                flex-direction: column;
+
+                align-items: stretch;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div id="main-navigation"></div>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <div class="container">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>
+                    👥 Employees
+                </h1>
+
+                <p>
+                    Manage employees registered in your Smart Office.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             STATISTICS
+        ========================= -->
+
+        <div class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    👥
+                </div>
+
+                <div class="stat-label">
+                    Total Employees
+                </div>
+
+                <div class="stat-value"
+                     id="totalEmployees">
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📧
+                </div>
+
+                <div class="stat-label">
+                    Employees With Email
+                </div>
+
+                <div class="stat-value"
+                     id="emailEmployees">
+                    0
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    📱
+                </div>
+
+                <div class="stat-label">
+                    Employees With Phone
+                </div>
+
+                <div class="stat-value"
+                     id="phoneEmployees">
+                    0
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =========================
+             ADD EMPLOYEE
+        ========================= -->
+
+        <div class="form-card">
+
+            <div class="form-title">
+                ➕ Add New Employee
+            </div>
+
+            <div class="form-subtitle">
+                Enter employee details and add them to the office system.
+            </div>
+
+
+            <form id="employeeForm">
+
+
+                <div class="form-grid">
+
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            placeholder="Enter employee name"
+                            maxlength="100"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="employee@example.com"
+                            maxlength="150"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="phone">
+                            Phone
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            placeholder="10-digit phone number"
+                            maxlength="15"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        id="addEmployeeBtn"
+                    >
+                        ➕ Add Employee
+                    </button>
+
+
+                    <button
+                        type="reset"
+                        class="btn btn-secondary"
+                    >
+                        Clear
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <div id="message"
+                 class="message">
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             TOOLBAR
+        ========================= -->
+
+        <div class="toolbar">
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="🔍 Search by name, email, phone or ID..."
+                    oninput="filterEmployees()"
+                >
+
+            </div>
+
+            <div class="employee-count"
+                 id="employeeCount">
+                0 employees
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             EMPLOYEE LIST
+        ========================= -->
+
+        <div id="employeeContainer">
+
+            <div class="loading">
+
+                <div class="spinner"></div>
+
+                Loading employees...
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =========================
+         EDIT MODAL
+    ========================= -->
+
+    <div
+        class="modal-overlay"
+        id="editModal"
+    >
+
+        <div class="modal">
+
+            <h2>
+                ✏️ Edit Employee
+            </h2>
+
+            <p>
+                Update the employee information below.
+            </p>
+
+
+            <input
+                type="hidden"
+                id="editId"
+            >
+
+
+            <div class="form-group">
+
+                <label for="editName">
+                    Full Name
+                </label>
+
+                <input
+                    type="text"
+                    id="editName"
+                    maxlength="100"
+                    required
+                >
+
+            </div>
+
+
+            <br>
+
+
+            <div class="form-group">
+
+                <label for="editEmail">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="editEmail"
+                    maxlength="150"
+                    required
+                >
+
+            </div>
+
+
+            <br>
+
+
+            <div class="form-group">
+
+                <label for="editPhone">
+                    Phone
+                </label>
+
+                <input
+                    type="tel"
+                    id="editPhone"
+                    maxlength="15"
+                    required
+                >
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    class="btn btn-secondary"
+                    onclick="closeEditModal()"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    class="btn btn-primary"
+                    onclick="updateEmployee()"
+                >
+                    💾 Save Changes
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="/auth.js"></script>
+
+    <script>
+
+
+        /* =====================================================
+           AUTHENTICATION
+        ===================================================== */
+
+        const token = "";
+
+
+        /* =====================================================
+           GLOBAL DATA
+        ===================================================== */
+
+        let employees = [];
+
+        let filteredEmployees = [];
+
+
+        /* =====================================================
+           COMMON HEADERS
+        ===================================================== */
+
+        function getHeaders() {
+
+            return {
+                "Content-Type": "application/json"
+            };
+
+        }
+
+
+        /* =====================================================
+           LOAD EMPLOYEES
+        ===================================================== */
+
+        async function loadEmployees() {
+
+            const container =
+                document.getElementById("employeeContainer");
+
+
+            container.innerHTML = `
+
+                <div class="loading">
+
+                    <div class="spinner"></div>
+
+                    Loading employees...
+
+                </div>
+
+            `;
+
+
+            try {
+
+                const response =
+                    await fetch("/employees", {
+
+                        method: "GET",
+
+                        headers: getHeaders()
+
+                    });
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Failed to load employees"
+                    );
+
+                }
+
+
+                employees =
+                    await response.json();
+
+
+                filteredEmployees =
+                    [...employees];
+
+
+                updateStatistics();
+
+                renderEmployees();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                container.innerHTML = `
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            ⚠️
+                        </div>
+
+                        <h3>
+                            Unable to load employees
+                        </h3>
+
+                        <p>
+                            Please check that the Smart Office
+                            application is running and try again.
+                        </p>
+
+                        <br>
+
+                        <button
+                            class="btn btn-primary"
+                            onclick="loadEmployees()"
+                        >
+                            🔄 Retry
+                        </button>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           STATISTICS
+        ===================================================== */
+
+        function updateStatistics() {
+
+            const total =
+                employees.length;
+
+
+            const withEmail =
+                employees.filter(
+                    employee =>
+                        employee.email &&
+                        employee.email.trim() !== ""
+                ).length;
+
+
+            const withPhone =
+                employees.filter(
+                    employee =>
+                        employee.phone &&
+                        String(employee.phone).trim() !== ""
+                ).length;
+
+
+            document.getElementById("totalEmployees")
+                .textContent = total;
+
+
+            document.getElementById("emailEmployees")
+                .textContent = withEmail;
+
+
+            document.getElementById("phoneEmployees")
+                .textContent = withPhone;
+
+        }
+
+
+        /* =====================================================
+           RENDER EMPLOYEES
+        ===================================================== */
+
+        function renderEmployees() {
+
+            const container =
+                document.getElementById("employeeContainer");
+
+
+            document.getElementById("employeeCount")
+                .textContent =
+                `${filteredEmployees.length} employee${filteredEmployees.length !== 1 ? "s" : ""}`;
+
+
+            if (filteredEmployees.length === 0) {
+
+                container.innerHTML = `
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            👤
+                        </div>
+
+                        <h3>
+                            No employees found
+                        </h3>
+
+                        <p>
+                            Try a different search or add a new employee.
+                        </p>
+
+                    </div>
+
+                `;
+
+
+                return;
+
+            }
+
+
+            container.innerHTML = `
+
+                <div class="employee-grid">
+
+                    ${filteredEmployees.map(employee => {
+
+                        const name =
+                            employee.name ||
+                            "Unknown Employee";
+
+
+                        const initial =
+                            name.charAt(0)
+                                .toUpperCase();
+
+
+                        return `
+
+                            <div class="employee-card">
+
+                                <div class="employee-top">
+
+                                    <div class="avatar">
+                                        ${initial}
+                                    </div>
+
+
+                                    <div>
+
+                                        <div class="employee-name">
+                                            ${escapeHtml(name)}
+                                        </div>
+
+                                        <div class="employee-id">
+                                            Employee #${employee.id}
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="employee-info">
+
+
+                                    <div class="info-row">
+
+                                        <span class="info-icon">
+                                            📧
+                                        </span>
+
+                                        <span>
+                                            ${escapeHtml(
+                                                employee.email ||
+                                                "No email"
+                                            )}
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="info-row">
+
+                                        <span class="info-icon">
+                                            📱
+                                        </span>
+
+                                        <span>
+                                            ${escapeHtml(
+                                                employee.phone
+                                                    ? String(employee.phone)
+                                                    : "No phone"
+                                            )}
+                                        </span>
+
+                                    </div>
+
+
+                                </div>
+
+
+                                <div class="employee-actions">
+
+
+                                    <button
+                                        class="btn btn-secondary"
+                                        onclick="openEditModal(${employee.id})"
+                                    >
+                                        ✏️ Edit
+                                    </button>
+
+
+                                    <button
+                                        class="btn btn-danger"
+                                        onclick="deleteEmployee(${employee.id})"
+                                    >
+                                        🗑️ Delete
+                                    </button>
+
+
+                                </div>
+
+                            </div>
+
+                        `;
+
+                    }).join("")}
+
+                </div>
+
+            `;
+
+        }
+
+
+        /* =====================================================
+           SEARCH
+        ===================================================== */
+
+        function filterEmployees() {
+
+            const keyword =
+                document
+                    .getElementById("searchInput")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            if (!keyword) {
+
+                filteredEmployees =
+                    [...employees];
+
+            } else {
+
+                filteredEmployees =
+                    employees.filter(employee => {
+
+                        const name =
+                            String(employee.name || "")
+                                .toLowerCase();
+
+
+                        const email =
+                            String(employee.email || "")
+                                .toLowerCase();
+
+
+                        const phone =
+                            String(employee.phone || "")
+                                .toLowerCase();
+
+
+                        const id =
+                            String(employee.id || "")
+                                .toLowerCase();
+
+
+                        return (
+                            name.includes(keyword) ||
+                            email.includes(keyword) ||
+                            phone.includes(keyword) ||
+                            id.includes(keyword)
+                        );
+
+                    });
+
+            }
+
+
+            renderEmployees();
+
+        }
+
+
+        /* =====================================================
+           ADD EMPLOYEE
+        ===================================================== */
+
+        document
+            .getElementById("employeeForm")
+            .addEventListener(
+                "submit",
+                async function(event) {
+
+                    event.preventDefault();
+
+
+                    const name =
+                        document
+                            .getElementById("name")
+                            .value
+                            .trim();
+
+
+                    const email =
+                        document
+                            .getElementById("email")
+                            .value
+                            .trim();
+
+
+                    const phone =
+                        document
+                            .getElementById("phone")
+                            .value
+                            .trim();
+
+
+                    if (!name || !email || !phone) {
+
+                        showMessage(
+                            "Please fill in all employee details.",
+                            "error"
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (!isValidEmail(email)) {
+
+                        showMessage(
+                            "Please enter a valid email address.",
+                            "error"
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (!isValidPhone(phone)) {
+
+                        showMessage(
+                            "Please enter a valid phone number.",
+                            "error"
+                        );
+
+                        return;
+
+                    }
+
+
+                    const button =
+                        document.getElementById(
+                            "addEmployeeBtn"
+                        );
+
+
+                    button.disabled = true;
+
+                    button.textContent = "⏳ Adding...";
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                "/employees",
+                                {
+
+                                    method: "POST",
+
+                                    headers:
+                                        getHeaders(),
+
+                                    body:
+                                        JSON.stringify({
+
+                                            name: name,
+
+                                            email: email,
+
+                                            phone: phone
+
+                                        })
+
+                                }
+                            );
+
+
+                        const data =
+                            await response.json()
+                                .catch(
+                                    () => null
+                                );
+
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                data?.message ||
+                                "Failed to add employee"
+                            );
+
+                        }
+
+
+                        showMessage(
+                            "Employee added successfully! 🎉",
+                            "success"
+                        );
+
+
+                        document
+                            .getElementById(
+                                "employeeForm"
+                            )
+                            .reset();
+
+
+                        await loadEmployees();
+
+
+                    } catch (error) {
+
+                        console.error(error);
+
+
+                        showMessage(
+                            error.message ||
+                            "Unable to add employee.",
+                            "error"
+                        );
+
+
+                    } finally {
+
+                        button.disabled = false;
+
+                        button.textContent =
+                            "➕ Add Employee";
+
+                    }
+
+                }
+            );
+
+
+        /* =====================================================
+           EDIT MODAL
+        ===================================================== */
+
+        function openEditModal(id) {
+
+            const employee =
+                employees.find(
+                    item => item.id === id
+                );
+
+
+            if (!employee) {
+                return;
+            }
+
+
+            document
+                .getElementById("editId")
+                .value = employee.id;
+
+
+            document
+                .getElementById("editName")
+                .value =
+                employee.name || "";
+
+
+            document
+                .getElementById("editEmail")
+                .value =
+                employee.email || "";
+
+
+            document
+                .getElementById("editPhone")
+                .value =
+                employee.phone
+                    ? employee.phone
+                    : "";
+
+
+            document
+                .getElementById("editModal")
+                .style.display = "flex";
+
+        }
+
+
+        function closeEditModal() {
+
+            document
+                .getElementById("editModal")
+                .style.display = "none";
+
+        }
+
+
+        /* =====================================================
+           UPDATE EMPLOYEE
+        ===================================================== */
+
+        async function updateEmployee() {
+
+            const id =
+                document
+                    .getElementById("editId")
+                    .value;
+
+
+            const name =
+                document
+                    .getElementById("editName")
+                    .value
+                    .trim();
+
+
+            const email =
+                document
+                    .getElementById("editEmail")
+                    .value
+                    .trim();
+
+
+            const phone =
+                document
+                    .getElementById("editPhone")
+                    .value
+                    .trim();
+
+
+            if (!name || !email || !phone) {
+
+                alert(
+                    "Please fill in all employee details."
+                );
+
+                return;
+
+            }
+
+
+            if (!isValidEmail(email)) {
+
+                alert(
+                    "Please enter a valid email address."
+                );
+
+                return;
+
+            }
+
+
+            if (!isValidPhone(phone)) {
+
+                alert(
+                    "Please enter a valid phone number."
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `/employees/${id}`,
+                        {
+
+                            method: "PUT",
+
+                            headers:
+                                getHeaders(),
+
+                            body:
+                                JSON.stringify({
+
+                                    name: name,
+
+                                    email: email,
+
+                                    phone: phone
+
+                                })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json()
+                        .catch(
+                            () => null
+                        );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data?.message ||
+                        "Failed to update employee"
+                    );
+
+                }
+
+
+                closeEditModal();
+
+
+                showMessage(
+                    "Employee updated successfully! ✅",
+                    "success"
+                );
+
+
+                await loadEmployees();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                alert(
+                    error.message ||
+                    "Unable to update employee."
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           DELETE EMPLOYEE
+        ===================================================== */
+
+        async function deleteEmployee(id) {
+
+            const employee =
+                employees.find(
+                    item => item.id === id
+                );
+
+
+            if (!employee) {
+                return;
+            }
+
+
+            const confirmed =
+                confirm(
+                    `Are you sure you want to delete "${employee.name}"?`
+                );
+
+
+            if (!confirmed) {
+                return;
+            }
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        `/employees/${id}`,
+                        {
+
+                            method: "DELETE",
+
+                            headers:
+                                getHeaders()
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json()
+                        .catch(
+                            () => null
+                        );
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        data?.message ||
+                        "Failed to delete employee"
+                    );
+
+                }
+
+
+                showMessage(
+                    "Employee deleted successfully. 🗑️",
+                    "success"
+                );
+
+
+                await loadEmployees();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+
+                showMessage(
+                    error.message ||
+                    "Unable to delete employee.",
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        /* =====================================================
+           VALIDATION
+        ===================================================== */
+
+        function isValidEmail(email) {
+
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+                .test(email);
+
+        }
+
+
+        function isValidPhone(phone) {
+
+            const cleaned =
+                phone.replace(
+                    /[\s()+-]/g,
+                    ""
+                );
+
+
+            return /^\d{10,15}$/
+                .test(cleaned);
+
+        }
+
+
+        /* =====================================================
+           MESSAGE
+        ===================================================== */
+
+        function showMessage(text, type) {
+
+            const message =
+                document.getElementById(
+                    "message"
+                );
+
+
+            message.textContent = text;
+
+
+            message.className =
+                "message " + type;
+
+
+            setTimeout(() => {
+
+                message.className =
+                    "message";
+
+            }, 4000);
+
+        }
+
+
+        /* =====================================================
+           HTML ESCAPE
+        ===================================================== */
+
+        function escapeHtml(value) {
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+        /* =====================================================
+           LOGOUT
+        ===================================================== */
+
+        function logout() {
+
+            smartLogout();
+
+        }
+
+
+        /* =====================================================
+           CLOSE MODAL WHEN CLICKING OUTSIDE
+        ===================================================== */
+
+        document
+            .getElementById("editModal")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    if (event.target === this) {
+
+                        closeEditModal();
+
+                    }
+
+                }
+            );
+
+
+        /* =====================================================
+           INITIAL LOAD
+        ===================================================== */
+
+        loadEmployees();
+
+    </script>
+
+
+<script src="/javascript/nav.js"></script>
+</body>
+
+</html>
