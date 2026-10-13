@@ -1,5 +1,15 @@
 # Smart Office Issue & Maintenance Platform
 
+## 🔗 Live Demo
+**https://smart-office-fpm2.onrender.com**
+
+> Hosted on a free tier: the first load can take up to a minute to wake up. Demo data resets when the app restarts.
+
+| Role | Login |
+|---|---|
+| Admin | admin@smartoffice.local / Office@2026 |
+| Employee | Click **Register** to create an account |
+
 A Spring Boot 4 + Java 21 maintenance-management application with separate **USER** and **ADMIN** workflows, JWT authentication, role-based authorization, issue tracking, technician assignment, notifications, attachments, status history, statistics and a browser-based UI.
 
 ## Main workflow
