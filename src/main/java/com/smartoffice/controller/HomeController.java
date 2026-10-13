@@ -14,7 +14,7 @@ public class HomeController {
 		this.officeMessage = officeMessage;
 	}
 	
-	@GetMapping("/")
+	@GetMapping("/status")
 	public String home() {
 		return "Smart office Maintenance Platform is Running!";
 	}
